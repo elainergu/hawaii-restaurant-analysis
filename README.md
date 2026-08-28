@@ -1,5 +1,4 @@
-# Hawaii Restaurant Naming Analysis
-Elaine Gu
+Author: Elaine Gu
 
 ## Introduction
 The dataset contains Google Maps information for various locations in Hawaii. This project uses the Hawaii business metadata, which is part of a much larger dataset.
