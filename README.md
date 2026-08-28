@@ -116,7 +116,7 @@ The missingness of `price` was tested to determine whether it depends on `num_of
 
 **Alternative Hypothesis:** The missingness of `price` does depend on `num_of_reviews`
 
-**Test Statistic:** The absolute difference in mean number of reviews between restaurants with missing prices and restaurants with non-missing prices.
+**Test Statistic:** The absolute difference in mean number of reviews between restaurants with and without missing prices.
 
 **Significance Level:**: 0.05
 
@@ -127,18 +127,54 @@ The missingness of `price` was tested to determine whether it depends on `num_of
   frameborder="0">
 </iframe>
 
-A permutation test was conducted by shuffling the `price_missing` labels 1000 times and recalculating the absolute difference in mean number of reviews of each permutation. The resulting p-value was less than 0.001.
+A permutation test was conducted by shuffling the `price_missing` labels 1000 times to generate a distribution of simulated test statistics as defined above. The observed test statistic was then compared to this distribution, resulting **p-value** was less than **0.001**.
 
-Since the p-value is below the significance level of 0.05, there is sufficient evidence to reject the null hypothesis. This suggests that the missingness of `price` depends on `num_of_reviews`, and may therefore be considered *MAR*. This makes sense intuively because restaurants with more reviews may have more established and complete Google Maps listings, mking price information more likely to be recorded. Vise versa, restaurants with fewer reviews may have less complete listings, increasing the likelihood that `price` is missing.
+Since the p-value is less than the significance level of 0.05, we **reject the null hypothesis**. This suggests that the missingness of `price` depends on `num_of_reviews`, and may therefore be considered *MAR*. This makes sense intuively because restaurants with more reviews may have more established and complete Google Maps listings, mking price information more likely to be recorded. Vise versa, restaurants with fewer reviews may have less complete listings, increasing the likelihood that `price` is missing.
 
-> Missing Price Not Dependent on _________
+> Missing Price Not Dependent on Longitude
+The missingness of `price` was tested to determine whether it depends on `longitude`.
+
+**Null Hypothesis:** The missingness of `price` does not depend on `longitude`.
+
+**Alternative Hypothesis:** The missingness of `price` does depend on `longitude`.
+
+**Test Statistic:** The absolute difference in mean longitude between restaurants with and without missing prices.
+
+**Significance Level:**: 0.05
+
+A second permutation test was conducted using the same method described above, but with respect to `longitude`. The resulting **p-value** was **0.462**.
+
+Since the p-value is greater than the significance level of 0.05, we **fail to reject the null hypothesis**. This suggests that the missingness of `price` does not depend on `longitude`. In other words, a restaurant's east-west geographic position does not appear to explain why `price` is missing. 
 
 ### Hypothesis Testing
+We are interested in whether the presence of Hawaiian words in restaurant names is associated with higher average price levels. This directly addresses the main research question by examining one distinct naming feature. A permutation test is conducted to evaluate this relationship.
 
 **Null Hypothesis:** Restaurants with Hawaiian words in their names have the same average price level as restaurants without Hawaiian words in their names.
 
 **Alternative Hypothesis:** Restaurants with Hawaiian words in their names have a higher average price level than restaurants without Hawaiian words in their names.
 
-**Test Statistic:** The absolute difference in mean number of reviews between restaurants with missing prices and restaurants with non-missing prices.
+**Test Statistic:** Difference in mean price level between restaurants with and without Hawaiian words in their names.
 
 **Significance Level:**: 0.05
+
+The null hypothesis provides a baseline of no difference, while the alternative hypothesis tests the directional relationship of interest. The differnece in mean price is an appropriate test statistic because it captures both the size and direction of the difference between the two groups.
+
+The `has_hawaiian_word` labels were shuffled 1000 times to generate simulated differences in mean price under the null hypothesis. The **observed statistic** was approximately **0.132**, and the resulting **p_value** was **0.012**.
+
+<iframe
+  src="assets/empircal_distribution.html"
+  width="800"
+  height="600"
+  frameborder="0">
+</iframe>
+
+Since the p-value is less than the significance level of 0.05, we **reject the null hypothesis**. This provides evidence that restaurants with Hawaiian words in their names tend to have higher average price levels than restaurants without Hawaiian words in their names. 
+
+### Framing a Prediction Problem
+We want to **predict a restaurant's average rating using its price, number of reviews, and naming features**. This is a regression problem because the response variable, average rating, is numerical and continuous. Average rating was chosen because it directly reflects constomer evaluation and is one of the main outcomes considered in the research question.
+
+The model is evaluated using **RMSE** (Root Mean Squared Error) because it measures how far the predicted ratings are from the actual ratings while giving more weight to larger prediction errors. This is more appropriate than classification metrics such as accuracy or F1-score because the response variable is continuous rather than categorical.
+
+At the time of prediction, the restaurant's name, price level, number of reviews, and category information would already be available from its Google Maps listing. The naming features are derived only from the restaurant name, so they would also be known before prediction, making all selected features appropriate for training the model.
+
+### Baseline Model
