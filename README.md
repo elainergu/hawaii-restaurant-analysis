@@ -1,7 +1,7 @@
 # Hawaii Restaurant Naming Analysis
-DSC 80 project analyzing Hawaii restaurant pricing, ratings, and naming patterns.
+Elaine Gu
 
-### Introduction
+## Introduction
 The dataset contains Google Maps information for various locations in Hawaii. This project uses the Hawaii business metadata, which is part of a much larger dataset.
 
 **Research Question:** Do certain naming features of Hawaii restaurants correlate with higher price levels and average ratings?
@@ -27,7 +27,7 @@ The following dataset was originally scraped and used in the research papers [UC
 - `relative_results` - related businesses recommended by Google
 - `url` - URL of the business
 
-### Data Cleaning and Exploratory Data Analysis
+## Data Cleaning and Exploratory Data Analysis
 1. Keep only relevant columns from the metadata
     - We only keep the columns relevant to the research question, which include `name`, `category`, `longitude`, `price`, `avg_rating`, and `num_of_reviews`.
 2. Remove rows missing necessary information
@@ -53,7 +53,7 @@ The cleaned dataset contains 4,301 rows and 14 columns. The following is the out
 | Buona Sera | [Italian restaurant, Restaurant] | -157.742702 | NaN | 3.7 | 24 | [buona, sera] | False | False | False | False | False | False |
 | Tucker & Bevvy Breakfast | [Fast food restaurant, Restaurant] | -157.822399 | NaN | 4.2 | 57 | [tucker, bevvy, breakfast] | False | False | False | False | False | False |
 
-##### Univariate Analysis
+### Univariate Analysis
 The distribution of the most common words in restaurant names shows that terms such as "restaurant", "grill", and "cafe" appear most frequently and can all be categorized as dining types. Many other common words describe foods or cuisines, giving insight into a few of the naming features that restaurants most commonly use.
 
 <iframe
@@ -72,7 +72,7 @@ The distribution of word types in restaurant names shows `has_food_word` and `ha
   frameborder="0">
 </iframe>
 
-##### Bivariate Analysis
+### Bivariate Analysis
 From this scatter plot, it can be interpreted that most restaurants have average ratings between approximately 3.5 and 5. Restaurants with fewer reviews show a wider range of ratings, while restaurants with more reviews tend to have ratings concentrated toward the higher end.
 
 <iframe
@@ -91,7 +91,7 @@ The box plot shows that as price level increases, average rating also increases.
   frameborder="0">
 </iframe>
 
-##### Aggregates
+### Aggregates
 This pivot table aggreates the data by naming feature and displays the mean `avg_rating` and `price`. While the "Hawaiian" word type corresponds with the highest average rating, "Dining Type" and "Hawaiian" names have the highest average prices. However, the difference between the naming features are relatively small.
 
 | word_type | avg_rating | price |
@@ -103,12 +103,12 @@ This pivot table aggreates the data by naming feature and displays the mean `avg
 | Hawaiian | 4.374708 | 1.781513 |
 | Person Name | 4.118033 | 1.406250 |
 
-### Assessment of Missingness
+## Assessment of Missingness
 
-##### MNAR Analysis
+### MNAR Analysis
 I believe the `description` column could be argued as *MNAR* because whether a business has a description may depend on factors that are not observed in the dataset, such as how actively the owner manages the Google Maps listing. Additional data on business owner activity or the completeness of other fields in the listing, for example, could pottentially make the missingness *MAR* since it could then be explained by another observed variable.
 
-##### Missing Dependency
+### Missing Dependency
 > Missing Price Dependent on Number of Reviews
 The missingness of `price` was tested to determine whether it depends on `num_of_reviews`.
 
@@ -146,7 +146,7 @@ A second permutation test was conducted using the same method described above, b
 
 Since the p-value is greater than the significance level of 0.05, we **fail to reject the null hypothesis**. This suggests that the missingness of `price` does not depend on `longitude`. In other words, a restaurant's east-west geographic position does not appear to explain why `price` is missing. 
 
-### Hypothesis Testing
+## Hypothesis Testing
 We are interested in whether the presence of Hawaiian words in restaurant names is associated with higher average price levels. This directly addresses the main research question by examining one distinct naming feature. A permutation test is conducted to evaluate this relationship.
 
 **Null Hypothesis:** Restaurants with Hawaiian words in their names have the same average price level as restaurants without Hawaiian words in their names.
@@ -170,11 +170,11 @@ The `has_hawaiian_word` labels were shuffled 1000 times to generate simulated di
 
 Since the p-value is less than the significance level of 0.05, we **reject the null hypothesis**. This provides evidence that restaurants with Hawaiian words in their names tend to have higher average price levels than restaurants without Hawaiian words in their names. 
 
-### Framing a Prediction Problem
+## Framing a Prediction Problem
 We want to **predict a restaurant's average rating using its price, number of reviews, and naming features**. This is a regression problem because the response variable, average rating, is numerical and continuous. Average rating was chosen because it directly reflects constomer evaluation and is one of the main outcomes considered in the research question.
 
 The model is evaluated using **RMSE** (Root Mean Squared Error) because it measures how far the predicted ratings are from the actual ratings while giving more weight to larger prediction errors. This is more appropriate than classification metrics such as accuracy or F1-score because the response variable is continuous rather than categorical.
 
 At the time of prediction, the restaurant's name, price level, number of reviews, and category information would already be available from its Google Maps listing. The naming features are derived only from the restaurant name, so they would also be known before prediction, making all selected features appropriate for training the model.
 
-### Baseline Model
+## Baseline Model
