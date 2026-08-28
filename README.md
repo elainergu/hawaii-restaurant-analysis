@@ -76,7 +76,7 @@ The distribution of word types in restaurant names shows `has_food_word` and `ha
 From this scatter plot, it can be interpreted that most restaurants have average ratings between approximately 3.5 and 5. Restaurants with fewer reviews show a wider range of ratings, while restaurants with more reviews tend to have ratings concentrated toward the higher end.
 
 <iframe
-  src="assets/biivariate_num_reviews_avg_rating.html"
+  src="assets/bivariate_num_reviews_avg_rating.html"
   width="800"
   height="600"
   frameborder="0">
@@ -85,7 +85,7 @@ From this scatter plot, it can be interpreted that most restaurants have average
 The box plot shows that as price level increases, average rating also increases. Higher-priced restaurants appear to have more concentrated ratings than lower-priced restaurants, although it should be considered that there are fewer restaurants at the higher price levels.
 
 <iframe
-  src="assets/biivariate_price_level_avg_rating.html"
+  src="assets/bivariate_price_level_avg_rating.html"
   width="800"
   height="600"
   frameborder="0">
@@ -110,6 +110,7 @@ I believe the `description` column could be argued as *MNAR* because whether a b
 
 ### Missing Dependency
 > Missing Price Dependent on Number of Reviews
+
 The missingness of `price` was tested to determine whether it depends on `num_of_reviews`.
 
 **Null Hypothesis:** The missingness of `price` does not depend on `num_of_reviews`
@@ -132,6 +133,7 @@ A permutation test was conducted by shuffling the `price_missing` labels 1000 ti
 Since the p-value is less than the significance level of 0.05, we **reject the null hypothesis**. This suggests that the missingness of `price` depends on `num_of_reviews`, and may therefore be considered *MAR*. This makes sense intuively because restaurants with more reviews may have more established and complete Google Maps listings, mking price information more likely to be recorded. Vise versa, restaurants with fewer reviews may have less complete listings, increasing the likelihood that `price` is missing.
 
 > Missing Price Not Dependent on Longitude
+
 The missingness of `price` was tested to determine whether it depends on `longitude`.
 
 **Null Hypothesis:** The missingness of `price` does not depend on `longitude`.
@@ -162,7 +164,7 @@ The null hypothesis provides a baseline of no difference, while the alternative 
 The `has_hawaiian_word` labels were shuffled 1000 times to generate simulated differences in mean price under the null hypothesis. The **observed statistic** was approximately **0.132**, and the resulting **p_value** was **0.012**.
 
 <iframe
-  src="assets/empircal_distribution.html"
+  src="assets/empirical_distribution.html"
   width="800"
   height="600"
   frameborder="0">
