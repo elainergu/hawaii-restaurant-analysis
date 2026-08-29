@@ -183,16 +183,10 @@ At the time of prediction, the restaurant's name, price level, number of reviews
 ## Baseline Model
 The baseline model uses a linear regression model that predicts a restaurant's average rating using `price`, `num_of_reviews`, and `has_hawaiian_word`.
 
-| Feature | Type | Description / Encoding |
-|---|---|---|
-| `price` | Ordinal | Encoded as price levels 1-4; missing values imputed |
-| `num_of_reviews` | Quantitative | Number of reviews for each restaurant; missing values imputed |
-| `has_hawaiian_word` | Nominal | Binary indicator for whether the name contains a Hawaiian word |
-
 The model achieved an **RMSE** of approximately **0.456**, meaning that its predicted ratings are typically about 0.456 points away from the actual ratings. Since the performance was measured based on a test set, it reflects how well the model generalizes to unseen data. This model is reasonably effective but still limited because it uses only three relatively simple features and assumes a linear relationship with average rating.
 
 ## Final Model
-The final model builds on the baseline and uses the features, as described further:
+The final model builds on the baseline with the following features:
 
 `price`
 This feature represents the restauran't price level, encoded from 1 to 4. As shown in the bivariate box plot, higher price levels generally correspond with higher average ratings. Intuitively, price can reflect differences in restaurant positioning, service quality, and customer expecations, all of which may relate to how customers evaluate the restaurant.
@@ -212,6 +206,7 @@ These two features were derived from the `category` column in the original datas
 `category_count`
 This feature represents the number of categories assigned to a restaurant on Google Maps. Restaurants with more categories may offer a broader range of services or fall into multiple dining classifications. For instance, a less specialized restaurant may be represented by several categories rather than one specific type, giving the model additional context. 
 
+### Model and Hyperparameter Selection
 The final model uses a **Random Forest Regressor** instead of linear regression. Linear regression assumes that the relationship between each feature and average rating is appoximately linear, which may be too restrictive for this data. Random Forest was chosen because it can capture nonlinear relationships and interctions between features without requiring them to be specified manually. 
 
 `GridSearchCV` was used to select the hyperparameters `max_depth` and `main_samples_leaf`. `max_depth` controls how complex each decision tree can be, while `min_samples_leaf` controls the minimum number of observations required in each leaf, helping prevent the model from fitting overly specific patterns.
@@ -226,6 +221,7 @@ The best performing parameteres were:
 `max_depth` = 6
 `min_samples_leaf` = 8
 
+### Performance Results
 On the same test data as the baseline model, the Random Forest model achieved an **RMSE** of approximately **0.429**, which, compared to the baseline model, **improved** by **0.027**. Since lower RMSE indicates predictions closwer to the actual average ratings, this decrease shows that the final model performs better on unseen restaurants. The improvement suggests that the additional features, along with the Random Forest model's ability to account for nonlinear patterns and interactions, provide more useful predictive information.
 
 ## Fairness Analysis
