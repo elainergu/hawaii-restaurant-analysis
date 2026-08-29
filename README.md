@@ -105,7 +105,7 @@ This pivot table aggreates the data by naming feature and displays the mean `avg
 ## Assessment of Missingness
 
 ### MNAR Analysis
-I believe the `description` column could be argued as *MNAR* because whether a business has a description may depend on factors that are not observed in the dataset, such as how actively the owner manages the Google Maps listing. Additional data on business owner activity or the completeness of other fields in the listing, for example, could pottentially make the missingness *MAR* since it could then be explained by another observed variable.
+I believe the `description` column could be argued as **MNAR** because whether a business has a description may depend on factors that are not observed in the dataset, such as how actively the owner manages the Google Maps listing. Additional data on business owner activity or the completeness of other fields in the listing, for example, could pottentially make the missingness **MAR** since it could then be explained by another observed variable.
 
 ### Missing Dependency
 > Missing Price Dependent on Number of Reviews
@@ -127,7 +127,7 @@ The missingness of `price` was tested to determine whether it depends on `num_of
   frameborder="0">
 </iframe>
 
-*The number of reviews was log-trasnformed to reduce right knew and make the missing and non-missing price distributions easier to visually compare*
+*\*The number of reviews was log-trasnformed to reduce right skew and make the missing and non-missing price distributions easier to visually compare*
 
 A permutation test was conducted by shuffling the `price_missing` labels 1000 times to generate a distribution of simulated test statistics as defined above. The observed test statistic was then compared to this distribution, resulting **p-value** was less than **0.001**.
 
