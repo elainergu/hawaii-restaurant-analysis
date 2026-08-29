@@ -211,14 +211,18 @@ The final model uses a **Random Forest Regressor** instead of linear regression.
 
 `GridSearchCV` was used to select the hyperparameters `max_depth` and `main_samples_leaf`. `max_depth` controls how complex each decision tree can be, while `min_samples_leaf` controls the minimum number of observations required in each leaf, helping prevent the model from fitting overly specific patterns.
 
-The final search ranges were:
+> Final Search Ranges
+
 `model__max_depth`: [4, 5, 6]
+
 `model__min_samples_leaf`: [4, 6, 8, 10]
 
 These ranges were refined through several trials. Broader ranges were intially tested, then narrowed around the values that performed best to compare nearby values more closely. `GridSearchCV` then evaluated each combination using cross-validation and selected the parameteres with the lowest RMSE.
 
-The best performing parameteres were:
+> Best Performing Parameteres
+
 `max_depth` = 6
+
 `min_samples_leaf` = 8
 
 ### Performance Results
