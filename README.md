@@ -165,7 +165,7 @@ The null hypothesis provides a baseline of no difference, while the alternative 
 The `has_hawaiian_word` labels were shuffled 1000 times to generate simulated differences in mean price under the null hypothesis. The **observed statistic** was approximately **0.132**, and the resulting **p_value** was **0.012**.
 
 <iframe
-  src="assets/empirical_distribution.html"
+  src="assets/empirical_distribution_price.html"
   width="800"
   height="600"
   frameborder="0">
@@ -213,19 +213,41 @@ The final model uses a **Random Forest Regressor** instead of linear regression.
 
 > Final Search Ranges
 
-`model__max_depth`: [4, 5, 6]
-
+`model__max_depth`: [4, 5, 6]  
 `model__min_samples_leaf`: [4, 6, 8, 10]
 
 These ranges were refined through several trials. Broader ranges were intially tested, then narrowed around the values that performed best to compare nearby values more closely. `GridSearchCV` then evaluated each combination using cross-validation and selected the parameteres with the lowest RMSE.
 
 > Best Performing Parameteres
 
-`max_depth` = 6
-
+`max_depth` = 6  
 `min_samples_leaf` = 8
 
 ### Performance Results
 On the same test data as the baseline model, the Random Forest model achieved an **RMSE** of approximately **0.429**, which, compared to the baseline model, **improved** by **0.027**. Since lower RMSE indicates predictions closwer to the actual average ratings, this decrease shows that the final model performs better on unseen restaurants. The improvement suggests that the additional features, along with the Random Forest model's ability to account for nonlinear patterns and interactions, provide more useful predictive information.
 
 ## Fairness Analysis
+**Group X:** Restaurants with fewer than the median of 106 reviews.
+
+**Group Y:** Restaurants with at least the median of 106 reviews.
+
+**Null Hypothesis:** The model is fair. Its RMSE for restaurants with fewer reviews and restaurants with more reviews is roughly the same, and any observed difference is due to random chance.
+
+**Alternative Hypothesis:** The model is unfair. Its RMSE for restaurants with fewer reviews is higher than its RMSE for restaurants with more reviews.
+
+**Test Statistic:** Difference in RMSE (low reviews - high reviews)
+
+**Significance Level:** 0.05
+
+Using the **RMSE** as the **evaluation metric**, which measures the size of prediction errors for a continuous response variable, the two groups were compared to determine whether the model predicts ratings less accurately for restaurants with less reviews. 
+
+A permutation test was conducted by shuffling the group labels 1000 times and comparing the simulated differenes in RMSE to the observed difference. The resulting **p-value** was less than **0.001**. 
+
+<iframe
+  src="assets/empirical_distribution_rmse.html"
+  width="800"
+  height="600"
+  frameborder="0">
+</iframe>
+
+Since the p-value is less than the significance level of 0.05, we **reject the null hypothesis**. This provides evidence that the model has a higher RMSE for restaurants with fewer reviews and therefore does not have equal performance across the two groups. A possible explanation is that restaurants with fewer reviews have less stable average ratings and greater variability, making their ratings more difficult for the model to predict accurately.
