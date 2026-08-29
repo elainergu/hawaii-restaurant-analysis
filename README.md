@@ -127,6 +127,8 @@ The missingness of `price` was tested to determine whether it depends on `num_of
   frameborder="0">
 </iframe>
 
+*The number of reviews was log-trasnformed to reduce right knew and make the missing and non-missing price distributions easier to visually compare*
+
 A permutation test was conducted by shuffling the `price_missing` labels 1000 times to generate a distribution of simulated test statistics as defined above. The observed test statistic was then compared to this distribution, resulting **p-value** was less than **0.001**.
 
 Since the p-value is less than the significance level of 0.05, we **reject the null hypothesis**. This suggests that the missingness of `price` depends on `num_of_reviews`, and may therefore be considered *MAR*. This makes sense intuively because restaurants with more reviews may have more established and complete Google Maps listings, mking price information more likely to be recorded. Vise versa, restaurants with fewer reviews may have less complete listings, increasing the likelihood that `price` is missing.
@@ -179,3 +181,51 @@ The model is evaluated using **RMSE** (Root Mean Squared Error) because it measu
 At the time of prediction, the restaurant's name, price level, number of reviews, and category information would already be available from its Google Maps listing. The naming features are derived only from the restaurant name, so they would also be known before prediction, making all selected features appropriate for training the model.
 
 ## Baseline Model
+The baseline model uses a linear regression model that predicts a restaurant's average rating using `price`, `num_of_reviews`, and `has_hawaiian_word`.
+
+| Feature | Type | Description / Encoding |
+|---|---|---|
+| `price` | Ordinal | Encoded as price levels 1-4; missing values imputed |
+| `num_of_reviews` | Quantitative | Number of reviews for each restaurant; missing values imputed |
+| `has_hawaiian_word` | Nominal | Binary indicator for whether the name contains a Hawaiian word |
+
+The model achieved an **RMSE** of approximately **0.456**, meaning that its predicted ratings are typically about 0.456 points away from the actual ratings. Since the performance was measured based on a test set, it reflects how well the model generalizes to unseen data. This model is reasonably effective but still limited because it uses only three relatively simple features and assumes a linear relationship with average rating.
+
+## Final Model
+The final model builds on the baseline and uses the features, as described further:
+
+`price`
+This feature represents the restauran't price level, encoded from 1 to 4. As shown in the bivariate box plot, higher price levels generally correspond with higher average ratings. Intuitively, price can reflect differences in restaurant positioning, service quality, and customer expecations, all of which may relate to how customers evaluate the restaurant.
+
+`num_of_reviews`
+This feature represents how many reviews a restaurant has received. A larger review count can indicate greater popularity or visibility and may produce a more stable and reliable average rating because it is based on more customer experiences. It can also mke a restaurant appear more established or trustworthy to potential customers, influencing their expectations and perceptions.
+
+`has_hawaiian_word`
+This feature indicates whether the restaurant name contains a Hawaiian word. Since the analysis focuses on naming patterns in Hawaii, this variable captures a locally relevant aspect of restaurant identity that may be associated with how the restaurant is positioned and perceived by customers.
+
+`has_cuisine_word`
+This feature indicates whether a restaurant name contains a cuisine-related word, such as "Thai" or "Hawaiian", both of which appear among the top 20 most common words in the univariate analysis. Cuisine can shape expectations around food, pricing, and a more stylized or personal dining environment, which may influence how customers evalute and rate a restaurant.
+
+`is_fast_food` and `is_fine_dining`
+These two features were derived from the `category` column in the original dataset and indicate whether a business is classified as a "Fast Food Restaurant" or "Fine Dining Restaurant". This helps distinguish restaurants with different dining styles, service expectations, and price ranges, which may shape customer experiences and therefore ratings. 
+
+`category_count`
+This feature represents the number of categories assigned to a restaurant on Google Maps. Restaurants with more categories may offer a broader range of services or fall into multiple dining classifications. For instance, a less specialized restaurant may be represented by several categories rather than one specific type, giving the model additional context. 
+
+The final model uses a **Random Forest Regressor** instead of linear regression. Linear regression assumes that the relationship between each feature and average rating is appoximately linear, which may be too restrictive for this data. Random Forest was chosen because it can capture nonlinear relationships and interctions between features without requiring them to be specified manually. 
+
+`GridSearchCV` was used to select the hyperparameters `max_depth` and `main_samples_leaf`. `max_depth` controls how complex each decision tree can be, while `min_samples_leaf` controls the minimum number of observations required in each leaf, helping prevent the model from fitting overly specific patterns.
+
+The final search ranges were:
+`model__max_depth`: [4, 5, 6]
+`model__min_samples_leaf`: [4, 6, 8, 10]
+
+These ranges were refined through several trials. Broader ranges were intially tested, then narrowed around the values that performed best to compare nearby values more closely. `GridSearchCV` then evaluated each combination using cross-validation and selected the parameteres with the lowest RMSE.
+
+The best performing parameteres were:
+`max_depth` = 6
+`min_samples_leaf` = 8
+
+On the same test data as the baseline model, the Random Forest model achieved an **RMSE** of approximately **0.429**, which, compared to the baseline model, **improved** by **0.027**. Since lower RMSE indicates predictions closwer to the actual average ratings, this decrease shows that the final model performs better on unseen restaurants. The improvement suggests that the additional features, along with the Random Forest model's ability to account for nonlinear patterns and interactions, provide more useful predictive information.
+
+## Fairness Analysis
