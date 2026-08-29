@@ -224,7 +224,7 @@ These ranges were refined through several trials. Broader ranges were intially t
 `min_samples_leaf` = 8
 
 ### Performance Results
-On the same test data as the baseline model, the Random Forest model achieved an **RMSE** of approximately **0.429**, which, compared to the baseline model, **improved** by **0.027**. Since lower RMSE indicates predictions closwer to the actual average ratings, this decrease shows that the final model performs better on unseen restaurants. The improvement suggests that the additional features, along with the Random Forest model's ability to account for nonlinear patterns and interactions, provide more useful predictive information.
+On the same test data as the baseline model, the Random Forest model achieved an **RMSE** of approximately **0.429**, which, compared to the baseline model, **improved** by **0.027**. Since lower RMSE indicates predictions closer to the actual average ratings, this decrease shows that the final model performs better on unseen restaurants. The improvement suggests that the additional features, along with the Random Forest model's ability to account for nonlinear patterns and interactions, provide more useful predictive information. However, the RMSE remains relatively high, meaning that the model still has substantial room for improvement and does not predict individual ratings precisely.
 
 ## Fairness Analysis
 **Group X:** Restaurants with fewer than the median of 106 reviews.
