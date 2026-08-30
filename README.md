@@ -189,7 +189,7 @@ The model achieved an **RMSE** of approximately **0.456**, meaning that its pred
 The final model builds on the baseline with the following features:
 
 `price`
-This feature represents the restauran't price level, ordinally encoded from 1 to 4. As shown in the bivariate box plot, higher price levels generally correspond with higher average ratings. Intuitively, price can reflect differences in restaurant positioning, service quality, and customer expecations, all of which may relate to how customers evaluate the restaurant.
+This feature represents a restaurant's price level, **ordinally encoded** from `$`-`$$$$` to 1-4. As shown in the bivariate box plot, higher price levels generally correspond with higher average ratings. Intuitively, price can reflect differences in restaurant positioning, service quality, and customer expecations, all of which may relate to how customers evaluate the restaurant.
 
 `num_of_reviews`
 This feature represents how many reviews a restaurant has received. A larger review count can indicate greater popularity or visibility and may produce a more stable and reliable average rating because it is based on more customer experiences. It can also mke a restaurant appear more established or trustworthy to potential customers, influencing their expectations and perceptions.
@@ -201,7 +201,10 @@ This feature indicates whether the restaurant name contains a Hawaiian word. Sin
 This feature indicates whether a restaurant name contains a cuisine-related word, such as "Thai" or "Hawaiian", both of which appear among the top 20 most common words in the univariate analysis. Cuisine can shape expectations around food, pricing, and a more stylized or personal dining environment, which may influence how customers evalute and rate a restaurant.
 
 `is_fast_food` and `is_fine_dining`
-These two features were derived from the `category` column in the original dataset and indicate whether a business is classified as a "Fast Food Restaurant" or "Fine Dining Restaurant". This helps distinguish restaurants with different dining styles, service expectations, and price ranges, which may shape customer experiences and therefore ratings. 
+These two features were derived from the `category` column in the original dataset using **one-hot encoding** to indicate whether a business is classified as a "Fast Food Restaurant" or "Fine Dining Restaurant". This helps distinguish restaurants with different dining styles, service expectations, and price ranges, which may shape customer experiences and therefore ratings. 
+
+`price_fast_food` and `price_fine_dining`
+These two engineered **interaction terms** combine price level with restaurant type. This is useful because fine dining and fast food operate within very different price ranges, so the same price level may carry a different meaning depending on the type of restaurant. Separating these relationships helps the model interpret price within the appropriate dining context.
 
 `category_count`
 This feature represents the number of categories assigned to a restaurant on Google Maps. Restaurants with more categories may offer a broader range of services or fall into multiple dining classifications. For instance, a less specialized restaurant may be represented by several categories rather than one specific type, giving the model additional context. 
@@ -224,7 +227,7 @@ These ranges were refined through several trials. Broader ranges were intially t
 `min_samples_leaf` = 8
 
 ### Performance Results
-On the same test data as the baseline model, the Random Forest model achieved an **RMSE** of approximately **0.429**, which, compared to the baseline model, **improved** by **0.027**. Since lower RMSE indicates predictions closer to the actual average ratings, this decrease shows that the final model performs better on unseen restaurants. The improvement suggests that the additional features, along with the Random Forest model's ability to account for nonlinear patterns and interactions, provide more useful predictive information. However, the RMSE remains relatively high, meaning that the model still has substantial room for improvement and does not predict individual ratings precisely.
+On the same test data as the baseline model, the Random Forest model achieved an **RMSE** of approximately **0.425**, which, compared to the baseline model, **improved** by **0.031**. Since lower RMSE indicates predictions closer to the actual average ratings, this decrease shows that the final model performs better on unseen restaurants. The improvement suggests that the additional features, along with the Random Forest model's ability to account for nonlinear patterns and interactions, provide more useful predictive information. However, the RMSE remains relatively high, meaning that the model still has substantial room for improvement and does not predict individual ratings precisely.
 
 ## Fairness Analysis
 **Group X:** Restaurants with fewer than the median of 106 reviews.  
