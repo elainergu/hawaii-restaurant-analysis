@@ -189,7 +189,7 @@ The model achieved an **RMSE** of approximately **0.456**, meaning that its pred
 The final model builds on the baseline with the following features:
 
 `price`
-This feature represents the restauran't price level, encoded from 1 to 4. As shown in the bivariate box plot, higher price levels generally correspond with higher average ratings. Intuitively, price can reflect differences in restaurant positioning, service quality, and customer expecations, all of which may relate to how customers evaluate the restaurant.
+This feature represents the restauran't price level, ordinally encoded from 1 to 4. As shown in the bivariate box plot, higher price levels generally correspond with higher average ratings. Intuitively, price can reflect differences in restaurant positioning, service quality, and customer expecations, all of which may relate to how customers evaluate the restaurant.
 
 `num_of_reviews`
 This feature represents how many reviews a restaurant has received. A larger review count can indicate greater popularity or visibility and may produce a more stable and reliable average rating because it is based on more customer experiences. It can also mke a restaurant appear more established or trustworthy to potential customers, influencing their expectations and perceptions.
