@@ -10,21 +10,24 @@ This question is relevant because restaurant names are intentional and important
 The following dataset was originally scraped and used in the research papers [UCTopic: Unsupervised Contrastive Learning for Phrase Representations and Topic Mining](https://aclanthology.org/2022.acl-long.426.pdf) and [Personalized Showcases: Generating Multi-Modal Explanations for Recommendations](https://arxiv.org/pdf/2207.00422).
 
 `meta-Hawaii.json` contains 21,507 rows and 15 columns recording the following information: 
-- `name` - name of the business
-- `address` - address of the business
-- `gmap_id` - ID of the business
-- `description` - description of the business
-- `latitude` - latitude of the business
-- `longitude` - longitude of the business
-- `category` - category of the business
-- `avg_rating` - average rating of the business
-- `num_of_reviews` - number of reviews
-- `price` - price of the business
-- `hours` - open hours
-- `MISC` - miscellaneous information
-- `state` - current status of the business
-- `relative_results` - related businesses recommended by Google
-- `url` - URL of the business
+
+| Column | Description |
+|---|---|
+| `name` | Name of the business |
+| `address` | Address of the business |
+| `gmap_id` | ID of the business |
+| `description` | Description of the business |
+| `latitude` | Latitude of the business |
+| `longitude` | Longitude of the business |
+| `category` | Category of the business |
+| `avg_rating` | Average rating of the business |
+| `num_of_reviews` | Number of reviews |
+| `price` | Price of the business |
+| `hours` | Open hours |
+| `MISC` | Miscellaneous information |
+| `state` | Current status of the business |
+| `relative_results` | Related businesses recommended by Google |
+| `url` | URL of the business |
 
 ## Data Cleaning and Exploratory Data Analysis
 1. Keep only relevant columns from the metadata
