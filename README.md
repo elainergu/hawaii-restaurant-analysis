@@ -161,7 +161,7 @@ We are interested in whether the presence of Hawaiian words in restaurant names 
 
 **Test Statistic:** Difference in mean price level between restaurants with and without Hawaiian words in their names.
 
-**Significance Level:**: 0.05
+**Significance Level:** 0.05
 
 The null hypothesis provides a baseline of no difference, while the alternative hypothesis tests the directional relationship of interest. The differnece in mean price is an appropriate test statistic because it captures both the size and direction of the difference between the two groups.
 
